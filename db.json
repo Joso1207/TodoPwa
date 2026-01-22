@@ -1,0 +1,28 @@
+{
+  "todos": [
+    {
+      "id": 1,
+      "title": "Bygg PWA",
+      "completed": false,
+      "description": "",
+      "dueDate": "2026-01-10",
+      "project": "Skola"
+    },
+    {
+      "id": 2,
+      "title": "Lär dig fetch API",
+      "completed": false,
+      "description": "",
+      "dueDate": "2026-01-15",
+      "project": "Skola"
+    },
+    {
+      "id": 3,
+      "title": "Gå ut med hundarna",
+      "completed": true,
+      "description": "",
+      "dueDate": "2026-01-08",
+      "project": "Privat"
+    }
+  ]
+}

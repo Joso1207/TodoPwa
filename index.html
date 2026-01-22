@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Things App</title>
+</head>
+<body class="online">
+<h1>Things App <span id="status">Online</span></h1>
+
+<div id="offline-banner">
+    Du är offline. Appen är i läsläge.
+</div>
+
+<div id="app">
+    <ul id="todo-list" class="task-list"></ul>
+
+    <form id="task-form">
+        <input type="text" id="todo-input" placeholder="What needs to be done?" required />
+        <input type="date" id="todo-date" />
+        <button type="submit" id="todo-button">Add task</button>
+    </form>
+</div>
+
+<script type="module" src="/src/main.js"></script>
+</body>
+</html>
