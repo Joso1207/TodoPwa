@@ -1,10 +1,12 @@
 import './style.css'
+import {flushPostQueue, getTodo, getTodos, addTodo,updateTodo,removeTodo } from './api.js';
+import {v4 as uuidv4} from 'uuid';
+
+
 
 let isOnline = navigator.onLine;
-let TodoTasks = [{id: 1, title: "Do things"},
-    {id: 2, title: "Do other things"},
-    {id: 3, title: "Do other things but differently"}
-]
+
+
 
 const statusBadge = document.getElementById("status");
 const offlineBanner = document.getElementById("offline-banner")
@@ -20,11 +22,15 @@ todoForm.addEventListener("submit", async (event)=> {
 
 
 todoList.addEventListener("click", (event) => {
+    console.log(event.target)
     const todoItem = event.target.closest(".todo-item")
-    const id = parseInt(todoItem.dataset.id)
+    const id = todoItem.dataset.id
+    console.log(id)
+    console.log(todoItem)
 
     if (event.target.classList.contains("todo-checkbox")) {
         toggleTodo(id)
+        console.log(id)
     }
 
     if (event.target.classList.contains("todo-delete")) {
@@ -32,19 +38,20 @@ todoList.addEventListener("click", (event) => {
     }
 })
 
-function createTodo (task) {
+async function createTodo (task) {
     if (!isOnline) {
         console.log('Kan inte skapa - offline')
         return
     }
     const newTodo = {
-        id: Date.now(),
+        id: uuidv4(),
         title: task.title,
         completed: false,
         description: " ",
         dueDate: task.dueDate
     }
-    TodoTasks.push(newTodo)
+    await addTodo(newTodo)
+
 
     console.log(task)
     renderTodos();
@@ -55,23 +62,26 @@ function deleteTodo(id) {
         console.log('Kan inte radera - offline')
         return
     }
-    TodoTasks = TodoTasks.filter(t=>t.id !==id)
+    removeTodo(id)
     console.log("Raderade todo med id:", id)
     renderTodos();
 }
 
-function toggleTodo(id) {
-    const todo = TodoTasks.find(t => t.id === id)
+async function toggleTodo(id) {
+    console.log(id)
+    const todo = await getTodo(id)
     if (todo) {
         todo.completed = !todo.completed
         console.log('Toggled:', todo.title, '→', todo.completed)
+        await updateTodo(todo)
         renderTodos()
     }
 }
 
 function updateConnected() {
     const offlineBanner = document.getElementById("offline-banner");
-
+    console.log("AAAA")
+    console.log(isOnline)
     if (isOnline) {
         statusBadge.textContent = "Online";
         document.body.className = "online";
@@ -86,6 +96,7 @@ function updateConnected() {
 window.addEventListener("online", () => {
     isOnline = true;
     console.log("Online nu");
+    flushPostQueue();
     updateConnected();
 })
 
@@ -95,8 +106,11 @@ window.addEventListener("offline", () => {
     updateConnected();
 })
 
-function renderTodos() {
-    todoList.innerHTML = TodoTasks.map(todo => `
+async function renderTodos() {
+
+    let apiTodos = await getTodos()
+
+    todoList.innerHTML = apiTodos.map(todo => `
     <li class="todo-item" data-id="${todo.id}">
       <input type="checkbox" class="todo-checkbox" ${todo.completed ? 'checked' : ''} />
       <div class="todo-info">
