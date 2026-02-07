@@ -69,9 +69,10 @@ function deleteTodo(id) {
         console.log('Kan inte radera - offline')
         return
     }
-    removeTodo(id)
+    removeTodo(id).then(() => {
     console.log("Raderade todo med id:", id)
     renderTodos();
+    })
 }
 
 async function toggleTodo(id) {
@@ -100,10 +101,14 @@ function updateConnected() {
     }
 }
 
+function usercookieset(){
+    document.cookie.valueOf("username") ? document.getElementById("current-user").textContent = document.cookie.split("; ").find(row => row.startsWith("username=")).split("=")[1] : document.getElementById("current-user").textContent = "no-user";
+}
+
 window.addEventListener("online", () => {
     isOnline = true;
     console.log("Online nu");
-    flushPostQueue();
+    flushPostQueue(); //flushes the offline POST queue to sync with backend0+
     updateConnected();
 })
 
@@ -129,5 +134,6 @@ async function renderTodos() {
   `).join('')
 }
 
+usercookieset()
 renderTodos()
 updateConnected()

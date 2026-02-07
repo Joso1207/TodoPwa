@@ -11,6 +11,7 @@ export default defineConfig({
     plugins: [
         VitePWA({
             registerType: "autoUpdate",
+            injectRegister: "auto",
             devOptions: { enabled: true },
             manifest: {
                 name: "Things App",

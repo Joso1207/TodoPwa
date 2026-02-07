@@ -1,15 +1,16 @@
 const API_URL = "http://192.168.0.28:3001/todos";
 
+
 export async function getTodos() {
   try {
     const response = await fetch(API_URL);
     const data = await response.json();
     
-    localStorage.setItem("todo-cache",JSON.stringify(data));
+    ;
     if (!response.ok) {
       throw new Error(`API error: ${response.status}`);
     }
-;
+    localStorage.setItem("todo-cache",JSON.stringify(data));
     return data;
 
   } catch (error) {
@@ -33,8 +34,14 @@ export async function getTodo(id) {
 
   } catch (error) {
     console.error("Failed to fetch todos:", error);
-
-    throw error;
+      console.error("Fallback to Cached data");
+      const cached = JSON.parse(localStorage.getItem("todo-cache")) || [];
+      const todo = cached.find(t => t.id === id);
+      if (todo) {
+        return todo;
+      } else {
+        throw new Error("Todo not found in cache");
+    }
   }
 }
 
@@ -136,4 +143,3 @@ export function createTodoElement(todo) {
   `;
   return li;
 }
-
