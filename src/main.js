@@ -6,12 +6,19 @@ import {v4 as uuidv4} from 'uuid';
 
 let isOnline = navigator.onLine;
 
-
-
+const userInput = document.getElementById("user");
+const userButton = document.getElementById("user-button");
 const statusBadge = document.getElementById("status");
 const offlineBanner = document.getElementById("offline-banner")
 const todoList = document.getElementById("todo-list");
 const todoForm = document.getElementById("task-form");
+
+userButton.addEventListener("click", () => {
+    document.cookie = `username=${userInput.value}; path=/; max-age=86400`;
+    alert(`Username set to ${userInput.value}`);
+    usercookieset();
+});
+
 todoForm.addEventListener("submit", async (event)=> {
     event.preventDefault();
     const title = document.getElementById("todo-input");

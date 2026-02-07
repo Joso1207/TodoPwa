@@ -24,6 +24,37 @@ h1 {
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 
+#user {
+    background: rgba(255,255,255,0.2);
+    padding: 8px 8px;
+    border-radius: 4px;
+    font-size: 0.4em;
+    font-weight: 500;
+    vertical-align: middle;
+}
+
+#current-user {
+    background: rgba(255,255,255,0.2);
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.5em;
+    font-weight: 200;
+    vertical-align: middle;
+}
+
+#user-button {
+    background: #667eea;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 8px;
+    font-size: 0.4em;
+    font-weight: 500;
+    cursor: pointer;
+    vertical-align: middle;
+    transition: background-color 0.2s;
+}
+
 /* Status badge */
 #status {
     background: rgba(255,255,255,0.2);
@@ -31,6 +62,7 @@ h1 {
     border-radius: 20px;
     font-size: 0.9em;
     font-weight: 500;
+    vertical-align: middle;
 }
 
 #status:before {
