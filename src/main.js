@@ -70,8 +70,8 @@ function deleteTodo(id) {
         return
     }
     removeTodo(id).then(() => {
-    console.log("Raderade todo med id:", id)
-    renderTodos();
+        console.log("Raderade todo med id:", id)
+        renderTodos();
     })
 }
 

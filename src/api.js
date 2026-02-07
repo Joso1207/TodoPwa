@@ -33,7 +33,7 @@ export async function getTodo(id) {
     return todo;
 
   } catch (error) {
-    console.error("Failed to fetch todos:", error);
+      console.error("Failed to fetch todos:", error);
       console.error("Fallback to Cached data");
       const cached = JSON.parse(localStorage.getItem("todo-cache")) || [];
       const todo = cached.find(t => t.id === id);
