@@ -74,9 +74,12 @@ export async function addTodo(todo) {
   return response.json();
   }
   catch(error){
+    // Save a structured queue entry so flushPostQueue can retry reliably.
     const queue = getPostQueue();
-    queue.push(todo);
+    queue.push({ url: API_URL, payload: todo });
     savePostQueue(queue);
+    // Return the queued item so callers can update UI if needed.
+    return todo;
   }
 }
 
@@ -88,10 +91,14 @@ export async function flushPostQueue() {
 
   for (const item of queue) {
     try {
-      const response = await fetch(item.url, {
+      // Support both structured queue entries ({url,payload}) and legacy raw todo objects
+      const url = item.url || API_URL;
+      const payload = item.payload || item;
+
+      const response = await fetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(item.payload),
+        body: JSON.stringify(payload),
       });
 
       if (!response.ok) {

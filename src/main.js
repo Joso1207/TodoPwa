@@ -88,7 +88,6 @@ async function toggleTodo(id) {
 
 function updateConnected() {
     const offlineBanner = document.getElementById("offline-banner");
-    console.log("AAAA")
     console.log(isOnline)
     if (isOnline) {
         statusBadge.textContent = "Online";
@@ -108,8 +107,15 @@ function usercookieset(){
 window.addEventListener("online", () => {
     isOnline = true;
     console.log("Online nu");
-    flushPostQueue(); //flushes the offline POST queue to sync with backend0+
-    updateConnected();
+    statusBadge.textContent = "Syncing...";
+    document.body.className = "sync";
+    flushPostQueue().then(() => {
+    setTimeout(() => {
+        document.body.className = "online";
+        updateConnected();
+        renderTodos();
+        }, 500); //wait 500ms to show ensure user sees the syncing status
+    });
 })
 
 window.addEventListener("offline", () => {

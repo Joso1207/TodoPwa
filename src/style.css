@@ -81,6 +81,11 @@ body.offline #status {
     color: white;
 }
 
+body.sync #status {
+    background: #130268;
+    color: white;
+}
+
 /* Main container */
 #app {
     max-width: 800px;
