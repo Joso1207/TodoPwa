@@ -28,13 +28,15 @@
 </div>
 
 <div id="app">
-    <ul id="todo-list" class="task-list"></ul>
 
     <form id="task-form">
         <input type="text" id="todo-input" placeholder="What needs to be done?" required />
         <input type="date" id="todo-date" />
         <button type="submit" id="todo-button">Add task</button>
     </form>
+    <ul id="todo-list" class="task-list"></ul>
+
+    <div id="load-trigger"></div>
 </div>
 
 <script type="module" src="/src/main.js"></script>

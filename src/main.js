@@ -19,6 +19,7 @@ userButton.addEventListener("click", () => {
     usercookieset();
 });
 
+
 todoForm.addEventListener("submit", async (event)=> {
     event.preventDefault();
     const title = document.getElementById("todo-input");
@@ -44,6 +45,19 @@ todoList.addEventListener("click", (event) => {
         deleteTodo(id);
     }
 })
+
+let page = 0;
+const PAGE_SIZE = 10;
+let todos = await getTodos().then(() => loadMoreTodos());
+
+function loadMoreTodos() {
+    const slice = todos.slice(
+        page * PAGE_SIZE,
+        (page + 1) * PAGE_SIZE
+    );
+    renderTodos(slice);
+    page++;
+}
 
 async function createTodo (task) {
     if (!isOnline) {
@@ -124,11 +138,10 @@ window.addEventListener("offline", () => {
     updateConnected();
 })
 
-async function renderTodos() {
+async function renderTodos(todoSlice = []) {
 
-    let apiTodos = await getTodos()
 
-    todoList.innerHTML = apiTodos.map(todo => `
+    todoList.innerHTML += todoSlice.map(todo => `
     <li class="todo-item" data-id="${todo.id}">
       <input type="checkbox" class="todo-checkbox" ${todo.completed ? 'checked' : ''} />
       <div class="todo-info">
@@ -140,6 +153,21 @@ async function renderTodos() {
   `).join('')
 }
 
+const observer = new IntersectionObserver(
+    entries => {
+        if (entries[0].isIntersecting) {
+            loadMoreTodos();
+            console.log("Loading more todos...")
+            }
+        }
+);
+
+const loadTrigger = document.getElementById("load-trigger");
+console.log(loadTrigger)
+if (loadTrigger) {
+    console.log("Loading more todos...")
+    observer.observe(loadTrigger);
+}
+
 usercookieset()
-renderTodos()
 updateConnected()

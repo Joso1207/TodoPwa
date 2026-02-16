@@ -5,6 +5,7 @@ export async function getTodos() {
   try {
     const response = await fetch(API_URL);
     const data = await response.json();
+    console.log("Fetched todos:", response.statusText)
     
     ;
     if (!response.ok) {
