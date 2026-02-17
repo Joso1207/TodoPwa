@@ -1,4 +1,4 @@
-const API_URL = "http://192.168.0.28:3001/todos";
+const API_URL = "http://localhost:3001/todos";
 
 
 export async function getTodos() {
