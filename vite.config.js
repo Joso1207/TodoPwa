@@ -2,6 +2,7 @@ import { defineConfig } from "vite";
 import { VitePWA } from "vite-plugin-pwa";
 
 export default defineConfig({
+    base: "/todopwa/",
     server: {
         host: true
     },
@@ -16,7 +17,7 @@ export default defineConfig({
             manifest: {
                 name: "Things App",
                 short_name: "Things",
-                start_url: "/",
+                start_url: "/todopwa/",
                 display: "standalone",
                 theme_color: "#1a73e8",
                 background_color: "#ffffff",
